@@ -1,0 +1,9 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    <aura:attribute name = "allRecordsList" type = "Sensor__c[]"  default = "[]"/>
+    <aura:handler name = "recordsUploadedSuccessfully" event="c:RecordsUploaded" action="{! c.handleRecordsUpload}" />
+    <lightning:card>
+	    <c:UploadComponent />
+    	<c:mainTable allRecordsList = "{! v.allRecordsList}"/>
+    </lightning:card>
+    
+</aura:component>

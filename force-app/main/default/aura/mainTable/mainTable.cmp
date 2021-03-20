@@ -1,0 +1,75 @@
+<aura:component controller="MainTableController" implements="force:appHostable,flexipage:availableForAllPageTypes">
+    
+    <aura:attribute name = "allRecordsList" type = "Sensor__c[]"/>
+    <aura:attribute name = "paginationList" type = "Sensor__c[]"/>
+    <aura:attribute name = "pageSize"       type = "Integer"                    />
+    <aura:attribute name = "totalSize"      type = "Integer"      default = "0" />
+    <aura:attribute name = "start"          type = "Integer"      default = "0" />
+    <aura:attribute name = "end"            type = "Integer"      default = "0" />
+    
+    <aura:handler name = "init" action="{!c.doInit}" value="{!this}"/>
+	<aura:handler name = "change"  value="{!v.allRecordsList}" action="{!c.handleRecordsUpdate}"/>
+	<div class="{! v.totalSize > 0 ? 'slds-m-top_medium' : 'slds-m-top_medium slds-hide'}">
+        <table class="slds-table slds-table–bordered">
+            <thead>
+                <tr style="background-color:#6cbcd2;color:white;font-weight:bold">
+                    <th>#</th>
+                    <th>Base Station Id</th>
+                    <th>Sensor Id</th>
+                    <th>Status</th>
+                    <th>Model</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>        
+                <aura:iteration items="{!v.paginationList}" var="item" indexVar="i">
+                    <tr> 
+                        <td><ui:outputText value="{!i + 1 + v.start}"/></td>
+                        <td><ui:outputText value="{!item.Base_Station__c}" /></td>
+                        <td><ui:outputText value="{!item.Id}"/></td>                
+                        <td><ui:outputText value="{!item.Status__c}" /></td>
+                        <td><ui:outputText value="{!item.Model__c}" /></td>
+                        <td><lightning:button  variant="destructive" name="{!i+v.start}" label="Delete" onclick="{!c.deleteRecord}"/></td>
+                    </tr>
+                </aura:iteration>
+            </tbody>
+        
+        </table> 
+
+        <div class="slds-grid slds-gutters slds-m-top_xx-large slds-m-left_xx-small">
+          <div class="slds-col slds-size_1-of-6">
+            <lightning:select aura:id="numberOfRecords" name="select" value = "{!v.pageSize}" label="Select" onchange="{!c.setNOR }">
+                        <option value="10">10</option>
+                        <option value="25">25</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                        <option value="200">200</option>
+    
+            </lightning:select>
+          </div>
+        </div>
+        <div class="slds-grid slds-gutters slds-grid_align-center slds-m-top_medium">
+          <div class="slds-col slds-size_1-of-2">
+              <div class="slds-float_left slds-m-left_medium">
+                <lightning:button label="First"        disabled="{!v.pageSize >= v.totalSize}"         onclick="{!c.first}" />    
+              </div>
+              <div class="slds-float_right">
+                    <lightning:button label="Previous" disabled="{!v.start == 0}"         onclick="{!c.previous}" />
+              </div>
+          </div>
+		  <div class="slds-col slds-size_1-of-2">
+          	  <div class="slds-float_left">
+                     <lightning:button label="Next"     disabled="{!(v.end + 1 == v.totalSize)}" onclick="{!c.next}" />
+              </div>
+              <div class="slds-float_right slds-m-right_medium">
+                     <lightning:button label="Last"     disabled="{!(v.pageSize >= v.totalSize)}" onclick="{!c.last}" />
+              </div>	  
+          </div>
+        </div>
+        
+        
+        
+        
+    </div>
+
+</aura:component>

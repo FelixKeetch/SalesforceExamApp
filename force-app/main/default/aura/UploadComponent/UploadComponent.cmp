@@ -1,0 +1,15 @@
+<aura:component controller="UploadController" implements="force:appHostable,flexipage:availableForAllPageTypes" access="global">
+    
+    <aura:registerEvent name="recordsUploadedSuccessfully" type="c:RecordsUploaded"/>
+    <!-- Working in Lightning record page--> 
+    
+    <div class="slds-grid slds-gutters">
+      <div class="slds-col slds-align_absolute-center">
+    	<input type="file" class="file" aura:id="file" />    
+      </div>
+      <div class="slds-col">
+	    <lightning:button variant="brand" label="Upload Records" onclick="{!c.uploadRecords}"/>
+      </div>
+    </div>
+
+</aura:component>
